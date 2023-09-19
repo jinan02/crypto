@@ -1,30 +1,6 @@
 import random
 
-def main():
-    print("--------------------ALICE--------------------")
-    print("Salut! je suis Alice voici le message que je veux envoyer à Bob \n   ")
-    m = "ceciestlemessageclairadechiffrer"
-    print("m = ", m , "\n")
-    k = Gen1()
-    print("Voici la clé generée par l'algorithme Gen1 : ", k)
-    c = E1(k,m)
-    print("Voici le message chiffré par l'algorithme E1 : ", c)
-
-    print("---------------------EVE---------------------------")    
-    print(" Salut! je suis EVE l'espionne, voila le cryptogramme que j'ai recu : ", c)
-    print("puisque j'ai pas de clé , je ne peux pas devinner le message !!")
-
-    print("---------------------BOB---------------------------")
-    print("Salut! je suis Bob, j'ai recu de la part d'ALICE le cryptogramme : ", c)
-    print("puisque j'ai la meme clé que ALICE : " ,k,"\t je peux donc dechiffrer ce message ")
-    c_decrypted = D1(k,c)
-    print("apres le dechiffrage j'ai eu ce message : " , c_decrypted )
-
-    print("--------------------------------------------------")
-
-    print("testons la conformité du message : ", c_decrypted == m )
-
-
+#-----------------------------------question1------------------------------------
 
 #fonction qui genere la clé
 def Gen1(): 
@@ -40,7 +16,7 @@ def E1(k, m):
             if caractere.islower(): 
                 #on chiffre le caractere en calculant la distance entre la valeur ASCII du caractere et la valeur ASCII de la lettre 'a'(qui est égale à 97)
                 #on ajoute la valeur de notre clé et ensuite la valeur 97 pour rester dans la plage des valeures ASCII des lettres miniscules 
-                lettre_encrypted = chr(((ord(caractere) - 97 + k) % 26)+ 97)
+                lettre_encrypted = chr(((ord(caractere) - 97 + k) % 26) + 97)
             
             else:
                 #Si la lettre est majuscule on refait la meme chose en utilisant, cette fois-ci la valeur ASCII de la lettre 'A'
@@ -80,6 +56,48 @@ def D1(k,c):
     return E1(-k,c)
 
 
+
+#-----------------------------------question2------------------------------------
+
+# Répétons le scénario trois fois de manière indépendante
+m = "ceciestlemessageclairadechiffrer"
+
+#1er scenario
+print('************************************1er scenario************************************')
+k1 = Gen1() #generation de la clé k1
+c1 = E1(k1, m) #Alice chiffre le message m en utilisant la clé k1
+print("****Pour Alice:\n => le message est: ", m, "\n => la clé est: ", k1, "\n => le cryptogramme est: ", c1, "\n" )
+m_eve1 = c1 #le message chiffré vu par Eve 
+print("****Pour Eve:\n  => le cryptogramme est: ", m_eve1, "\n" )
+c1_decrypted = D1(k1, c1) #bob dechiffre le message m en utilisant la clé k1
+print("****Pour Bob:\n => le cryptogramme est: ", c1, "\n => la clé est: ", k1, "\n => le message dechiffré est: ", c1_decrypted, "\n")
+
+#2eme scenario
+print('************************************2eme scenario************************************')
+k2 = Gen1() #generation de la clé k2
+c2 = E1(k2, m) #Alice chiffre le message m en utilisant la clé k2
+print("****Pour Alice:\n => le message est: ", m, "\n => la clé est: ", k2, "\n => le cryptogramme est: ", c2 ,"\n" )
+m_eve2 = c2 #le message chiffré vu par Eve
+print("****Pour Eve:\n  => le cryptogramme est: ", m_eve2, "\n")
+c2_decrypted = D1(k2, c2) #bob dechiffre le message m en utilisant la clé k2
+print("****Pour Bob:\n => le cryptogramme est: ", c2, "\n => la clé est: ", k2, "\n => le message dechiffré est: ", c2_decrypted, "\n")
+
+#3eme scenario
+print('************************************3eme scenario************************************')
+k3 = Gen1() #generation de la clé k3
+c3 = E1(k3, m) #Alice chiffre le message m en utilisant la clé k3
+print("****Pour Alice:\n => le message est: ", m, "\n => la clé est: ", k3, "\n => le cryptogramme est: ", c3, "\n" )
+m_eve3 = c3 #le message chiffré vu par Eve
+print("****Pour Eve:\n  => le cryptogramme est: ", m_eve3, "\n" )
+c3_decrypted = D1(k3, c3) #bob dechiffre le message m en utilisant la clé k3
+print("****Pour Bob:\n => le cryptogramme est: ", c3, "\n => la clé est: ", k3, "\n => le message dechiffré est: ", c3_decrypted, "\n")
+
+
+
+
+#-----------------------------------question3------------------------------------
+
+
 #eve(c): fonction qui va permettre à Eve de trouver la clé secrete en essayant les 26 clés possibles
 def eve(c): 
     for k in range(26): 
@@ -97,5 +115,3 @@ def eve(c):
                 m = m + caractere
         print(f"Clé {k}: {m}")
 
-
-main()
