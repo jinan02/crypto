@@ -13,9 +13,8 @@ def gen2(message):
 
     return key,key_binaire
 
-def e2( message):
+def e2( message,key):
     c = []
-    key,_ =gen2(message)
     i=0
     for caractere in message: 
         if caractere.isalpha():
@@ -26,7 +25,7 @@ def e2( message):
         else: 
             c = c
 
-    return key,c
+    return c
 
 def d2( key, cryptogramme):
     c=""
@@ -37,4 +36,33 @@ def d2( key, cryptogramme):
             i=i+1
             c = c + chr(lettre)
     return c
+
+#--------------------------------question a-------------------------------------------
+
+def main():
+    for i in range(3):
+        print("\n-------------------------scenario",i+1,"---------------")
+        print("----------------------------ALICE--------------------")
+        print("Salut! je suis Alice voici le message que je veux envoyer a Bob")
+        message = "ceciestlemessageclairadechiffrer"
+        print("m = ", message)
+        key,key_binaire = gen2(message)
+        print("Voici la cle generer par l'algorithme GEN2 : ", key_binaire)
+        cryptogramme = e2(message,key)
+        print("Voici le message chiffré par l'algorithme GEN2 : ", cryptogramme)
+
+        print("---------------------EVE---------------------------")    
+        print(" Salut! je suis EVE l'espionne, voila le cryptogramme que j'ai recu : ", cryptogramme)
+        print("puisque j'ai pas de cle , je ne peux pas devinner le message !!")
+
+        print("---------------------BOB---------------------------")
+        print("Salut! je suis Bob, j'ai recu de la part d'ALICE le cryptogramme : ", cryptogramme)
+        print("puisque j'ai le meme cle que ALICE : " ,key_binaire,"\t je peux donc dechiffrer ce message ")
+        message_dechiffre = d2(key, cryptogramme)
+        print("apres le dechiffrage j'ai eu ce message : " , message_dechiffre )
+
+        print("--------------------------------------------------")
+        print("testons la conformité du message : ", message_dechiffre == message )
+
+main()    
 
